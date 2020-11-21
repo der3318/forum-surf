@@ -1,9 +1,12 @@
 package com.der3318.forumsurf;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +25,20 @@ public class MainActivity extends AppCompatActivity {
         boardList.add(new ForumBoard("Software Engineer", "D Card"));
         boardList.add(new ForumBoard("Frontend Engineer", "D Card"));
 
-        ForumBoardAdapter boardAdapter = new ForumBoardAdapter(this, boardList);
+        ForumBoard.ForumBoardAdapter boardAdapter = new ForumBoard.ForumBoardAdapter(this, boardList);
 
         ListView listView = (ListView) findViewById(R.id.board_list);
         listView.setAdapter(boardAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ForumBoard board = boardList.get(i);
+                Intent intent = new Intent(MainActivity.this, BoardActivity.class);
+                intent.putExtra("board", board);
+                startActivity(intent);
+            }
+        });
     }
+
 }
