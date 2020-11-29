@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ForumPost implements Serializable {
@@ -37,16 +37,40 @@ public class ForumPost implements Serializable {
 
     }
 
-    private String title;
-    private String user;
-    private String content;
-    private List<String> commentList;
+    public static class ForumCommentAdapter extends ArrayAdapter<String> {
+
+        public ForumCommentAdapter(Activity context, List<String> commentList) {
+            super(context, 0, commentList);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View listItemView = convertView;
+
+            if (listItemView == null) {
+                listItemView = LayoutInflater.from(getContext()).inflate(R.layout.listitem_simple, parent, false);
+            }
+
+            String comment = getItem(position);
+
+            ((TextView) listItemView.findViewById(R.id.text_left)).setText(String.format("# %d", position + 1));
+            ((TextView) listItemView.findViewById(R.id.text_right)).setText(comment);
+
+            return listItemView;
+        }
+
+    }
+
+    private final String title;
+    private final String user;
+    private final String content;
+    private final List<String> commentList;
 
     public ForumPost(String title, String user, String content) {
         this.title = title;
         this.user = user;
         this.content = content;
-        this.commentList = new ArrayList<>();
+        this.commentList = Arrays.asList("comment1", "comment2", "comment3");
     }
 
     public String getTitle() {
@@ -59,6 +83,10 @@ public class ForumPost implements Serializable {
 
     public String getContent() {
         return this.content;
+    }
+
+    public List<String> getCommentList() {
+        return this.commentList;
     }
 
 }

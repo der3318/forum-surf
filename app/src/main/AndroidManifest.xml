@@ -18,6 +18,9 @@
         <activity
             android:name=".BoardActivity"
             android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".PostActivity"
+            android:parentActivityName=".BoardActivity"/>
     </application>
 
 </manifest>

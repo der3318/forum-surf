@@ -36,8 +36,8 @@ public class ForumBoard implements Serializable {
 
     }
 
-    private String name;
-    private String type;
+    private final String name;
+    private final String type;
 
     public ForumBoard(String name, String type) {
         this.name = name;

@@ -15,21 +15,23 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        /* link resource */
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ListView listView = (ListView) findViewById(R.id.board_list);
 
+        /* page data */
         List<ForumBoard> boardList = new ArrayList<>();
         boardList.add(new ForumBoard("Soft Job", "PPT"));
         boardList.add(new ForumBoard("Tech Job", "PPT"));
         boardList.add(new ForumBoard("Stock", "PPT"));
         boardList.add(new ForumBoard("Software Engineer", "D Card"));
         boardList.add(new ForumBoard("Frontend Engineer", "D Card"));
-
         ForumBoard.ForumBoardAdapter boardAdapter = new ForumBoard.ForumBoardAdapter(this, boardList);
 
-        ListView listView = (ListView) findViewById(R.id.board_list);
+        /* update view */
         listView.setAdapter(boardAdapter);
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
 
 }
