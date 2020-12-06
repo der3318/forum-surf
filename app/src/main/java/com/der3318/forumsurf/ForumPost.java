@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.List;
 
 public class ForumPost implements Serializable {
@@ -63,14 +62,14 @@ public class ForumPost implements Serializable {
 
     private final String title;
     private final String user;
-    private final String content;
-    private final List<String> commentList;
+    private String content;
+    private final String token;
 
-    public ForumPost(String title, String user, String content) {
+    public ForumPost(String title, String user, String content, String token) {
         this.title = title;
         this.user = user;
         this.content = content;
-        this.commentList = Arrays.asList("comment1", "comment2", "comment3");
+        this.token = token;
     }
 
     public String getTitle() {
@@ -85,8 +84,12 @@ public class ForumPost implements Serializable {
         return this.content;
     }
 
-    public List<String> getCommentList() {
-        return this.commentList;
+    public String getToken() {
+        return this.token;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
 }

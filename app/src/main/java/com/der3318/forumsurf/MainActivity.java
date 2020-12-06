@@ -23,11 +23,11 @@ public class MainActivity extends AppCompatActivity {
 
         /* page data */
         List<ForumBoard> boardList = new ArrayList<>();
-        boardList.add(new ForumBoard("Soft Job", "PPT"));
-        boardList.add(new ForumBoard("Tech Job", "PPT"));
-        boardList.add(new ForumBoard("Stock", "PPT"));
-        boardList.add(new ForumBoard("Software Engineer", "D Card"));
-        boardList.add(new ForumBoard("Frontend Engineer", "D Card"));
+        boardList.add(new ForumBoard("Soft Job", ForumProcessor.Type.PTT, "?"));
+        boardList.add(new ForumBoard("Tech Job", ForumProcessor.Type.PTT, "?"));
+        boardList.add(new ForumBoard("Stock", ForumProcessor.Type.PTT, "?"));
+        boardList.add(new ForumBoard("Software Engineer", ForumProcessor.Type.DCARD, "softwareengineer"));
+        boardList.add(new ForumBoard("Frontend Engineer", ForumProcessor.Type.DCARD, "f2e"));
         ForumBoard.ForumBoardAdapter boardAdapter = new ForumBoard.ForumBoardAdapter(this, boardList);
 
         /* update view */

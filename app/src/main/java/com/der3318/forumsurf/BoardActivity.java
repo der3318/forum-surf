@@ -9,6 +9,13 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,20 +35,32 @@ public class BoardActivity extends AppCompatActivity {
         /* try get data from parent page */
         ForumBoard boardReceived = (ForumBoard) getIntent().getSerializableExtra("board");
         if (boardReceived != null) {
-            board = boardReceived;
+            BoardActivity.board = boardReceived;
         }
 
-        /* page data */
+        /* data placeholder */
         List<ForumPost> postList = new ArrayList<>();
-        postList.add(new ForumPost("Hello", "user1", "content1"));
-        postList.add(new ForumPost("Good Morning", "user2", "content2"));
-        postList.add(new ForumPost("Thanks", "user3", "content3"));
-        postList.add(new ForumPost("Happy", "user4", "content4"));
-        postList.add(new ForumPost("See This", "user5", "content5"));
         ForumPost.ForumPostAdapter postAdapter = new ForumPost.ForumPostAdapter(this, postList);
 
+        /* send request and process */
+        ForumProcessor processor = new DcardProcessor();
+        RequestQueue requestQueue = Volley.newRequestQueue(BoardActivity.this);
+        requestQueue.add(new StringRequest(Request.Method.GET, processor.getUrlForBoard(BoardActivity.board.getToken()),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        postList.addAll(processor.convertResponseToPostList(response));
+                        postAdapter.notifyDataSetChanged();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                }));
+
         /* update view */
-        textView.setText(board.getName());
+        textView.setText(BoardActivity.board.getName());
         listView.setAdapter(postAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -29,7 +29,7 @@ public class ForumBoard implements Serializable {
             ForumBoard board = getItem(position);
 
             ((TextView) listItemView.findViewById(R.id.text_left)).setText(board.getName());
-            ((TextView) listItemView.findViewById(R.id.text_right)).setText(board.getType());
+            ((TextView) listItemView.findViewById(R.id.text_right)).setText(board.getType().name());
 
             return listItemView;
         }
@@ -37,19 +37,25 @@ public class ForumBoard implements Serializable {
     }
 
     private final String name;
-    private final String type;
+    private final ForumProcessor.Type type;
+    private final String token;
 
-    public ForumBoard(String name, String type) {
+    public ForumBoard(String name, ForumProcessor.Type type, String token) {
         this.name = name;
         this.type = type;
+        this.token = token;
     }
 
     public String getName() {
         return this.name;
     }
 
-    public String getType() {
+    public ForumProcessor.Type getType() {
         return this.type;
+    }
+
+    public String getToken() {
+        return this.token;
     }
 
 }
