@@ -28,8 +28,8 @@ public class ForumPost implements Serializable {
 
             ForumPost post = getItem(position);
 
-            ((TextView) listItemView.findViewById(R.id.text_left)).setText(post.getTitle());
-            ((TextView) listItemView.findViewById(R.id.text_right)).setText(post.getUser());
+            ((TextView) listItemView.findViewById(R.id.text_left)).setText(post.getUser());
+            ((TextView) listItemView.findViewById(R.id.text_right)).setText(post.getTitle());
 
             return listItemView;
         }

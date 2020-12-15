@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DcardProcessor implements ForumProcessor {
+public class DCARDProcessor implements ForumProcessor {
 
     @Override
     public String getUrlForBoard(String boardToken) {

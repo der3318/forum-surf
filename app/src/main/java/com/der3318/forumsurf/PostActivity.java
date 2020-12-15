@@ -18,7 +18,7 @@ import java.util.List;
 
 public class PostActivity extends AppCompatActivity {
 
-    private static ForumPost post;
+    public static ForumPost post;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,34 +42,40 @@ public class PostActivity extends AppCompatActivity {
         ForumPost.ForumCommentAdapter commentAdapter = new ForumPost.ForumCommentAdapter(this, commentList);
 
         /* send request and process */
-        ForumProcessor processor = new DcardProcessor();
-        RequestQueue requestQueue = Volley.newRequestQueue(PostActivity.this);
-        requestQueue.add(new StringRequest(Request.Method.GET, processor.getUrlForPost(PostActivity.post.getToken()),
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        processor.updatePostUsingResponse(PostActivity.post, response);
-                        textViewContent.setText(PostActivity.post.getContent());
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                    }
-                }));
-        requestQueue.add(new StringRequest(Request.Method.GET, processor.getUrlForCommentList(PostActivity.post.getToken()),
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        commentList.addAll(processor.convertResponseToCommentList(response));
-                        commentAdapter.notifyDataSetChanged();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                    }
-                }));
+        try {
+            Class<?> processorClass = Class.forName(String.format("com.der3318.forumsurf.%sProcessor", BoardActivity.board.getType().name()));
+            ForumProcessor processor = (ForumProcessor) processorClass.newInstance();
+            RequestQueue requestQueue = Volley.newRequestQueue(PostActivity.this);
+            requestQueue.add(new StringRequest(Request.Method.GET, processor.getUrlForPost(PostActivity.post.getToken()),
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            processor.updatePostUsingResponse(PostActivity.post, response);
+                            textViewContent.setText(PostActivity.post.getContent());
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                        }
+                    }));
+            requestQueue.add(new StringRequest(Request.Method.GET, processor.getUrlForCommentList(PostActivity.post.getToken()),
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            commentList.addAll(processor.convertResponseToCommentList(response));
+                            commentAdapter.notifyDataSetChanged();
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                        }
+                    }));
+        } catch (ClassNotFoundException ignored) {
+        } catch (IllegalAccessException ignored) {
+        } catch (InstantiationException ignored) {
+        }
 
         /* update view */
         textViewTitle.setText(PostActivity.post.getTitle());

@@ -28,8 +28,8 @@ public class ForumBoard implements Serializable {
 
             ForumBoard board = getItem(position);
 
-            ((TextView) listItemView.findViewById(R.id.text_left)).setText(board.getName());
-            ((TextView) listItemView.findViewById(R.id.text_right)).setText(board.getType().name());
+            ((TextView) listItemView.findViewById(R.id.text_left)).setText(board.getType().name());
+            ((TextView) listItemView.findViewById(R.id.text_right)).setText(board.getName());
 
             return listItemView;
         }

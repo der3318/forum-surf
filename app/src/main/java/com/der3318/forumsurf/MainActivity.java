@@ -23,9 +23,9 @@ public class MainActivity extends AppCompatActivity {
 
         /* page data */
         List<ForumBoard> boardList = new ArrayList<>();
-        boardList.add(new ForumBoard("Soft Job", ForumProcessor.Type.PTT, "?"));
-        boardList.add(new ForumBoard("Tech Job", ForumProcessor.Type.PTT, "?"));
-        boardList.add(new ForumBoard("Stock", ForumProcessor.Type.PTT, "?"));
+        boardList.add(new ForumBoard("Soft Job", ForumProcessor.Type.PTT, "Soft_Job"));
+        boardList.add(new ForumBoard("Tech Job", ForumProcessor.Type.PTT, "Tech_Job"));
+        boardList.add(new ForumBoard("Stock", ForumProcessor.Type.PTT, "Stock"));
         boardList.add(new ForumBoard("Software Engineer", ForumProcessor.Type.DCARD, "softwareengineer"));
         boardList.add(new ForumBoard("Frontend Engineer", ForumProcessor.Type.DCARD, "f2e"));
         ForumBoard.ForumBoardAdapter boardAdapter = new ForumBoard.ForumBoardAdapter(this, boardList);

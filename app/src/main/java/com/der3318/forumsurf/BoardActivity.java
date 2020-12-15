@@ -21,7 +21,7 @@ import java.util.List;
 
 public class BoardActivity extends AppCompatActivity {
 
-    private static ForumBoard board;
+    public static ForumBoard board;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,21 +43,27 @@ public class BoardActivity extends AppCompatActivity {
         ForumPost.ForumPostAdapter postAdapter = new ForumPost.ForumPostAdapter(this, postList);
 
         /* send request and process */
-        ForumProcessor processor = new DcardProcessor();
-        RequestQueue requestQueue = Volley.newRequestQueue(BoardActivity.this);
-        requestQueue.add(new StringRequest(Request.Method.GET, processor.getUrlForBoard(BoardActivity.board.getToken()),
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        postList.addAll(processor.convertResponseToPostList(response));
-                        postAdapter.notifyDataSetChanged();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                    }
-                }));
+        try {
+            Class<?> processorClass = Class.forName(String.format("com.der3318.forumsurf.%sProcessor", BoardActivity.board.getType().name()));
+            ForumProcessor processor = (ForumProcessor) processorClass.newInstance();
+            RequestQueue requestQueue = Volley.newRequestQueue(BoardActivity.this);
+            requestQueue.add(new StringRequest(Request.Method.GET, processor.getUrlForBoard(BoardActivity.board.getToken()),
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            postList.addAll(processor.convertResponseToPostList(response));
+                            postAdapter.notifyDataSetChanged();
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                        }
+                    }));
+        } catch (ClassNotFoundException ignored) {
+        } catch (IllegalAccessException ignored) {
+        } catch (InstantiationException ignored) {
+        }
 
         /* update view */
         textView.setText(BoardActivity.board.getName());
