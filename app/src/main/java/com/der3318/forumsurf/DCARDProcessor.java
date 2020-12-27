@@ -9,10 +9,19 @@ import java.util.List;
 
 public class DCARDProcessor implements ForumProcessor {
 
+    private String loadMoreDataToken;
+
     @Override
-    public String getUrlForBoard(String boardToken) {
-        final String urlFormat = "https://www.dcard.tw/service/api/v2/forums/%s/posts?popular=false&limit=50";
-        return String.format(urlFormat, boardToken);
+    public String getUrlForPostList(String boardToken, boolean loadMoreData) {
+        String url;
+        if (loadMoreData) {
+            final String urlFormat = "https://www.dcard.tw/service/api/v2/forums/%s/posts?popular=false&limit=50&before=%s";
+            url = String.format(urlFormat, boardToken, this.loadMoreDataToken);
+        } else {
+            final String urlFormat = "https://www.dcard.tw/service/api/v2/forums/%s/posts?popular=false&limit=50";
+            url = String.format(urlFormat, boardToken);
+        }
+        return url;
     }
 
     @Override
@@ -43,6 +52,18 @@ public class DCARDProcessor implements ForumProcessor {
         } catch (JSONException ignored) {
         }
         return postList;
+    }
+
+    @Override
+    public void updateTokenUsedToLoadMoreData(String response) {
+        try {
+            JSONArray jsonArray = new JSONArray(response);
+            if (jsonArray.length() > 0) {
+                JSONObject jsonObject = jsonArray.getJSONObject(jsonArray.length() - 1);
+                this.loadMoreDataToken = jsonObject.getString("id");
+            }
+        } catch (JSONException ignored) {
+        }
     }
 
     @Override

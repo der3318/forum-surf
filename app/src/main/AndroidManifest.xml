@@ -3,7 +3,7 @@
     package="com.der3318.forumsurf">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -20,10 +20,10 @@
         </activity>
         <activity
             android:name=".BoardActivity"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".PostActivity"
-            android:parentActivityName=".BoardActivity"/>
+            android:parentActivityName=".BoardActivity" />
     </application>
 
 </manifest>

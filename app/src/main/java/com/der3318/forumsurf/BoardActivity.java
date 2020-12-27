@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -30,6 +31,7 @@ public class BoardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
         TextView textView = (TextView) findViewById(R.id.board_name);
+        Button button = (Button) findViewById(R.id.load_more);
         ListView listView = (ListView) findViewById(R.id.post_list);
 
         /* try get data from parent page */
@@ -47,12 +49,13 @@ public class BoardActivity extends AppCompatActivity {
             Class<?> processorClass = Class.forName(String.format("com.der3318.forumsurf.%sProcessor", BoardActivity.board.getType().name()));
             ForumProcessor processor = (ForumProcessor) processorClass.newInstance();
             RequestQueue requestQueue = Volley.newRequestQueue(BoardActivity.this);
-            requestQueue.add(new StringRequest(Request.Method.GET, processor.getUrlForBoard(BoardActivity.board.getToken()),
+            requestQueue.add(new StringRequest(Request.Method.GET, processor.getUrlForPostList(BoardActivity.board.getToken(), false),
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
                             postList.addAll(processor.convertResponseToPostList(response));
                             postAdapter.notifyDataSetChanged();
+                            processor.updateTokenUsedToLoadMoreData(response);
                         }
                     },
                     new Response.ErrorListener() {
@@ -60,6 +63,25 @@ public class BoardActivity extends AppCompatActivity {
                         public void onErrorResponse(VolleyError error) {
                         }
                     }));
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    requestQueue.add(new StringRequest(Request.Method.GET, processor.getUrlForPostList(BoardActivity.board.getToken(), true),
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    postList.addAll(processor.convertResponseToPostList(response));
+                                    postAdapter.notifyDataSetChanged();
+                                    processor.updateTokenUsedToLoadMoreData(response);
+                                }
+                            },
+                            new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                }
+                            }));
+                }
+            });
         } catch (ClassNotFoundException ignored) {
         } catch (IllegalAccessException ignored) {
         } catch (InstantiationException ignored) {

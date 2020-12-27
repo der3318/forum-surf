@@ -9,13 +9,15 @@ public interface ForumProcessor {
         PTT
     }
 
-    public String getUrlForBoard(String boardToken);
+    public String getUrlForPostList(String boardToken, boolean loadMoreData);
 
     public String getUrlForPost(String postToken);
 
     public String getUrlForCommentList(String postToken);
 
     public List<ForumPost> convertResponseToPostList(String response);
+
+    public void updateTokenUsedToLoadMoreData(String response);
 
     public void updatePostUsingResponse(ForumPost post, String response);
 

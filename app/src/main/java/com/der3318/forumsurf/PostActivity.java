@@ -1,7 +1,6 @@
 package com.der3318.forumsurf;
 
 import android.os.Bundle;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +11,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.der3318.widget.ListViewWithoutScroll;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public class PostActivity extends AppCompatActivity {
         TextView textViewTitle = (TextView) findViewById(R.id.post_title);
         TextView textViewUser = (TextView) findViewById(R.id.post_user);
         TextView textViewContent = (TextView) findViewById(R.id.post_content);
-        ListView listView = (ListView) findViewById(R.id.comment_list);
+        ListViewWithoutScroll listView = (ListViewWithoutScroll) findViewById(R.id.comment_list);
 
         /* try get data from parent page */
         ForumPost postReceived = (ForumPost) getIntent().getSerializableExtra("post");

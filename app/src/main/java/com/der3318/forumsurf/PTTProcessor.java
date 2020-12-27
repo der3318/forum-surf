@@ -1,22 +1,27 @@
 package com.der3318.forumsurf;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PTTProcessor implements ForumProcessor {
 
+    private String loadMoreDataToken;
+
     @Override
-    public String getUrlForBoard(String boardToken) {
-        final String urlFormat = "https://www.ptt.cc/bbs/%s/index.html";
-        return String.format(urlFormat, boardToken);
+    public String getUrlForPostList(String boardToken, boolean loadMoreData) {
+        String url;
+        if (loadMoreData) {
+            final String urlFormat = "https://www.ptt.cc%s";
+            url = String.format(urlFormat, this.loadMoreDataToken);
+        } else {
+            final String urlFormat = "https://www.ptt.cc/bbs/%s/index.html";
+            url = String.format(urlFormat, boardToken);
+        }
+        return url;
     }
 
     @Override
@@ -45,6 +50,12 @@ public class PTTProcessor implements ForumProcessor {
             postList.add(new ForumPost(title, user, "", token));
         }
         return postList;
+    }
+
+    @Override
+    public void updateTokenUsedToLoadMoreData(String response) {
+        Document document = Jsoup.parse(response);
+        this.loadMoreDataToken = document.select("a:containsOwn(‹ 上頁)").attr("href");
     }
 
     @Override
