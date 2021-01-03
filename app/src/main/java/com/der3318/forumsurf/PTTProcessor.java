@@ -5,16 +5,17 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class PTTProcessor implements ForumProcessor {
 
-    private String loadMoreDataToken;
+    private String loadMoreDataToken = null;
 
     @Override
     public String getUrlForPostList(String boardToken, boolean loadMoreData) {
         String url;
-        if (loadMoreData) {
+        if (loadMoreData && this.loadMoreDataToken != null) {
             final String urlFormat = "https://www.ptt.cc%s";
             url = String.format(urlFormat, this.loadMoreDataToken);
         } else {
@@ -49,6 +50,7 @@ public class PTTProcessor implements ForumProcessor {
             String token = element.select("div.title").select("a").attr("href");
             postList.add(new ForumPost(title, user, "", token));
         }
+        Collections.reverse(postList);
         return postList;
     }
 
@@ -72,7 +74,9 @@ public class PTTProcessor implements ForumProcessor {
         Document document = Jsoup.parse(response);
         Element content = document.select("div.bbs-screen.bbs-content").first();
         for (Element element : document.select("div.push")) {
-            commentList.add(element.select("span.f3.push-content").text().substring(2));
+            if (element.select("span.f3.push-content").text().length() > 2) {
+                commentList.add(element.select("span.f3.push-content").text().substring(2));
+            }
         }
         return commentList;
     }

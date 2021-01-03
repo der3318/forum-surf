@@ -9,12 +9,12 @@ import java.util.List;
 
 public class DCARDProcessor implements ForumProcessor {
 
-    private String loadMoreDataToken;
+    private String loadMoreDataToken = null;
 
     @Override
     public String getUrlForPostList(String boardToken, boolean loadMoreData) {
         String url;
-        if (loadMoreData) {
+        if (loadMoreData && this.loadMoreDataToken != null) {
             final String urlFormat = "https://www.dcard.tw/service/api/v2/forums/%s/posts?popular=false&limit=50&before=%s";
             url = String.format(urlFormat, boardToken, this.loadMoreDataToken);
         } else {

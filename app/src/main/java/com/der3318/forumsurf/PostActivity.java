@@ -1,7 +1,9 @@
 package com.der3318.forumsurf;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -50,6 +52,7 @@ public class PostActivity extends AppCompatActivity {
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
+                            findViewById(R.id.loading_panel).setVisibility(View.GONE);
                             processor.updatePostUsingResponse(PostActivity.post, response);
                             textViewContent.setText(PostActivity.post.getContent());
                         }
@@ -57,12 +60,14 @@ public class PostActivity extends AppCompatActivity {
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getText(R.string.error_connection_failure), Toast.LENGTH_SHORT).show();
                         }
                     }));
             requestQueue.add(new StringRequest(Request.Method.GET, processor.getUrlForCommentList(PostActivity.post.getToken()),
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
+                            findViewById(R.id.loading_panel).setVisibility(View.GONE);
                             commentList.addAll(processor.convertResponseToCommentList(response));
                             commentAdapter.notifyDataSetChanged();
                         }
@@ -70,6 +75,7 @@ public class PostActivity extends AppCompatActivity {
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getText(R.string.error_connection_failure), Toast.LENGTH_SHORT).show();
                         }
                     }));
         } catch (ClassNotFoundException ignored) {

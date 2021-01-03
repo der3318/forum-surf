@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,6 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.der3318.widget.ListViewWithoutScroll;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ public class BoardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_board);
         TextView textView = (TextView) findViewById(R.id.board_name);
         Button button = (Button) findViewById(R.id.load_more);
-        ListView listView = (ListView) findViewById(R.id.post_list);
+        ListViewWithoutScroll listView = (ListViewWithoutScroll) findViewById(R.id.post_list);
 
         /* try get data from parent page */
         ForumBoard boardReceived = (ForumBoard) getIntent().getSerializableExtra("board");
@@ -53,6 +54,7 @@ public class BoardActivity extends AppCompatActivity {
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
+                            findViewById(R.id.loading_panel).setVisibility(View.GONE);
                             postList.addAll(processor.convertResponseToPostList(response));
                             postAdapter.notifyDataSetChanged();
                             processor.updateTokenUsedToLoadMoreData(response);
@@ -61,15 +63,19 @@ public class BoardActivity extends AppCompatActivity {
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getText(R.string.error_connection_failure), Toast.LENGTH_SHORT).show();
+                            findViewById(R.id.loading_panel).setVisibility(View.GONE);
                         }
                     }));
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    button.setClickable(false);
                     requestQueue.add(new StringRequest(Request.Method.GET, processor.getUrlForPostList(BoardActivity.board.getToken(), true),
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
+                                    button.setClickable(true);
                                     postList.addAll(processor.convertResponseToPostList(response));
                                     postAdapter.notifyDataSetChanged();
                                     processor.updateTokenUsedToLoadMoreData(response);
@@ -78,6 +84,8 @@ public class BoardActivity extends AppCompatActivity {
                             new Response.ErrorListener() {
                                 @Override
                                 public void onErrorResponse(VolleyError error) {
+                                    Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getText(R.string.error_connection_failure), Toast.LENGTH_SHORT).show();
+                                    button.setClickable(true);
                                 }
                             }));
                 }

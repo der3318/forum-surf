@@ -23,13 +23,13 @@ public class ForumBoard implements Serializable {
             View listItemView = convertView;
 
             if (listItemView == null) {
-                listItemView = LayoutInflater.from(getContext()).inflate(R.layout.listitem_simple, parent, false);
+                listItemView = LayoutInflater.from(getContext()).inflate(R.layout.listitem_boards, parent, false);
             }
 
             ForumBoard board = getItem(position);
 
-            ((TextView) listItemView.findViewById(R.id.text_left)).setText(board.getType().name());
-            ((TextView) listItemView.findViewById(R.id.text_right)).setText(board.getName());
+            ((TextView) listItemView.findViewById(R.id.board_type)).setText(board.getType().name());
+            ((TextView) listItemView.findViewById(R.id.board_name)).setText(board.getName());
 
             return listItemView;
         }

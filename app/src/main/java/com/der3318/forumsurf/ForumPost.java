@@ -23,13 +23,13 @@ public class ForumPost implements Serializable {
             View listItemView = convertView;
 
             if (listItemView == null) {
-                listItemView = LayoutInflater.from(getContext()).inflate(R.layout.listitem_simple, parent, false);
+                listItemView = LayoutInflater.from(getContext()).inflate(R.layout.listitem_posts, parent, false);
             }
 
             ForumPost post = getItem(position);
 
-            ((TextView) listItemView.findViewById(R.id.text_left)).setText(post.getUser());
-            ((TextView) listItemView.findViewById(R.id.text_right)).setText(post.getTitle());
+            ((TextView) listItemView.findViewById(R.id.post_title)).setText(post.getTitle());
+            ((TextView) listItemView.findViewById(R.id.post_user)).setText(post.getUser());
 
             return listItemView;
         }
@@ -47,13 +47,13 @@ public class ForumPost implements Serializable {
             View listItemView = convertView;
 
             if (listItemView == null) {
-                listItemView = LayoutInflater.from(getContext()).inflate(R.layout.listitem_simple, parent, false);
+                listItemView = LayoutInflater.from(getContext()).inflate(R.layout.listitem_comments, parent, false);
             }
 
             String comment = getItem(position);
 
-            ((TextView) listItemView.findViewById(R.id.text_left)).setText(String.format("# %d", position + 1));
-            ((TextView) listItemView.findViewById(R.id.text_right)).setText(comment);
+            ((TextView) listItemView.findViewById(R.id.comment_index)).setText(String.format(getContext().getResources().getString(R.string.comment_index_format), position + 1));
+            ((TextView) listItemView.findViewById(R.id.comment_content)).setText(comment);
 
             return listItemView;
         }
