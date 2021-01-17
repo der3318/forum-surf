@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">🌊 Forum Surf</string>
+    <string name="app_name">Forum 🌊</string>
+    <string name="image_links_regex">http(s?)://([\\w-]+\\.)+[\\w-]+(/[\\w- ./]*)+\\.(?:[gG][iI][fF]|[jJ][pP][gG]|[jJ][pP][eE][gG]|[pP][nN][gG]|[bB][mM][pP])</string>
     <string name="comment_index_format">B%d</string>
     <string name="error_connection_failure">Something went wrong…</string>
 </resources>

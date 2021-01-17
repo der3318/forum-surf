@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/post_scrollview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -50,6 +51,12 @@
             android:layout_height="wrap_content"
             android:padding="12dp"
             android:textSize="14sp" />
+
+        <com.der3318.widget.ListViewWithoutScroll
+            android:id="@+id/image_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="#00000000" />
 
         <com.der3318.widget.ListViewWithoutScroll
             android:id="@+id/comment_list"

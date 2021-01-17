@@ -1,6 +1,7 @@
 package com.der3318.forumsurf;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,14 +22,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ListView listView = (ListView) findViewById(R.id.board_list);
 
-        /* page data */
+        /* data placeholder */
         List<ForumBoard> boardList = new ArrayList<>();
-        boardList.add(new ForumBoard("Soft Job", ForumProcessor.Type.PTT, "Soft_Job"));
-        boardList.add(new ForumBoard("Tech Job", ForumProcessor.Type.PTT, "Tech_Job"));
-        boardList.add(new ForumBoard("Stock", ForumProcessor.Type.PTT, "Stock"));
-        boardList.add(new ForumBoard("Software Engineer", ForumProcessor.Type.DCARD, "softwareengineer"));
-        boardList.add(new ForumBoard("Frontend Engineer", ForumProcessor.Type.DCARD, "f2e"));
         ForumBoard.ForumBoardAdapter boardAdapter = new ForumBoard.ForumBoardAdapter(this, boardList);
+
+        /* read config and process json */
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                boardList.addAll(new ForumJsonReader(getApplicationContext(), R.raw.forumsurf, "forumsurf.json").readBoardList());
+                boardAdapter.notifyDataSetChanged();
+            }
+        });
 
         /* update view */
         listView.setAdapter(boardAdapter);

@@ -15,10 +15,10 @@ public class DCARDProcessor implements ForumProcessor {
     public String getUrlForPostList(String boardToken, boolean loadMoreData) {
         String url;
         if (loadMoreData && this.loadMoreDataToken != null) {
-            final String urlFormat = "https://www.dcard.tw/service/api/v2/forums/%s/posts?popular=false&limit=50&before=%s";
+            final String urlFormat = "https://www.dcard.tw/service/api/v2/forums/%s/posts?popular=false&limit=20&before=%s";
             url = String.format(urlFormat, boardToken, this.loadMoreDataToken);
         } else {
-            final String urlFormat = "https://www.dcard.tw/service/api/v2/forums/%s/posts?popular=false&limit=50";
+            final String urlFormat = "https://www.dcard.tw/service/api/v2/forums/%s/posts?popular=false&limit=20";
             url = String.format(urlFormat, boardToken);
         }
         return url;
@@ -44,10 +44,11 @@ public class DCARDProcessor implements ForumProcessor {
             for (int index = 0; index < jsonArray.length(); index++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(index);
                 String title = jsonObject.getString("title");
-                String user = jsonObject.getString("school") + " (" + jsonObject.getString("gender") + ")";
+                String user = (jsonObject.isNull("school") ? "匿名" : jsonObject.getString("school")) + " (" + jsonObject.getString("gender") + ")";
+                String time = jsonObject.getString("createdAt").substring(0, 10);
                 String content = jsonObject.getString("excerpt");
                 String token = jsonObject.getString("id");
-                postList.add(new ForumPost(title, user, content, token));
+                postList.add(new ForumPost(title, user, time, content, token));
             }
         } catch (JSONException ignored) {
         }

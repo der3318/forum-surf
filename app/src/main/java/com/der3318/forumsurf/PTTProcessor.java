@@ -47,8 +47,9 @@ public class PTTProcessor implements ForumProcessor {
             }
             String title = element.select("div.title").select("a").text();
             String user = element.select("div.meta").select("div.author").text();
+            String time = element.select("div.meta").select("div.date").text().trim();
             String token = element.select("div.title").select("a").attr("href");
-            postList.add(new ForumPost(title, user, "", token));
+            postList.add(new ForumPost(title, user, time ,"", token));
         }
         Collections.reverse(postList);
         return postList;

@@ -1,0 +1,59 @@
+{
+  "boards": [
+    {
+      "name": "National Taiwan University",
+      "type": "DCARD",
+      "token": "ntu"
+    },
+    {
+      "name": "Soft Job",
+      "type": "PTT",
+      "token": "Soft_Job"
+    },
+    {
+      "name": "Tech Job",
+      "type": "PTT",
+      "token": "Tech_Job"
+    },
+    {
+      "name": "Software Engineer",
+      "type": "DCARD",
+      "token": "softwareengineer"
+    },
+    {
+      "name": "Frontend Engineer",
+      "type": "DCARD",
+      "token": "f2e"
+    },
+    {
+      "name": "Tech Job",
+      "type": "DCARD",
+      "token": "tech_job"
+    },
+    {
+      "name": "Job",
+      "type": "DCARD",
+      "token": "job"
+    },
+    {
+      "name": "Stock",
+      "type": "PTT",
+      "token": "Stock"
+    },
+    {
+      "name": "Car",
+      "type": "PTT",
+      "token": "car"
+    },
+    {
+      "name": "Relationship",
+      "type": "DCARD",
+      "token": "relationship"
+    },
+    {
+      "name": "Mood",
+      "type": "DCARD",
+      "token": "mood"
+    }
+  ]
+}

@@ -2,6 +2,7 @@ package com.der3318.forumsurf;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +18,8 @@ import com.der3318.widget.ListViewWithoutScroll;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PostActivity extends AppCompatActivity {
 
@@ -28,10 +31,12 @@ public class PostActivity extends AppCompatActivity {
         /* link resource */
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
+        ScrollView scrollView = (ScrollView) findViewById((R.id.post_scrollview));
         TextView textViewTitle = (TextView) findViewById(R.id.post_title);
         TextView textViewUser = (TextView) findViewById(R.id.post_user);
         TextView textViewContent = (TextView) findViewById(R.id.post_content);
-        ListViewWithoutScroll listView = (ListViewWithoutScroll) findViewById(R.id.comment_list);
+        ListViewWithoutScroll listViewImages = (ListViewWithoutScroll) findViewById(R.id.image_list);
+        ListViewWithoutScroll listViewComments = (ListViewWithoutScroll) findViewById(R.id.comment_list);
 
         /* try get data from parent page */
         ForumPost postReceived = (ForumPost) getIntent().getSerializableExtra("post");
@@ -40,6 +45,8 @@ public class PostActivity extends AppCompatActivity {
         }
 
         /* data placeholder */
+        List<String> urlList = new ArrayList<>();
+        ForumPost.ForumImageAdapter imageAdapter = new ForumPost.ForumImageAdapter(this, urlList);
         List<String> commentList = new ArrayList<>();
         ForumPost.ForumCommentAdapter commentAdapter = new ForumPost.ForumCommentAdapter(this, commentList);
 
@@ -55,6 +62,8 @@ public class PostActivity extends AppCompatActivity {
                             findViewById(R.id.loading_panel).setVisibility(View.GONE);
                             processor.updatePostUsingResponse(PostActivity.post, response);
                             textViewContent.setText(PostActivity.post.getContent());
+                            urlList.addAll(PostActivity.this.extractAllImageLinks(PostActivity.post.getContent(), getApplicationContext().getResources().getString(R.string.image_links_regex)));
+                            imageAdapter.notifyDataSetChanged();
                         }
                     },
                     new Response.ErrorListener() {
@@ -70,6 +79,7 @@ public class PostActivity extends AppCompatActivity {
                             findViewById(R.id.loading_panel).setVisibility(View.GONE);
                             commentList.addAll(processor.convertResponseToCommentList(response));
                             commentAdapter.notifyDataSetChanged();
+                            scrollView.fullScroll(View.FOCUS_UP);
                         }
                     },
                     new Response.ErrorListener() {
@@ -86,9 +96,18 @@ public class PostActivity extends AppCompatActivity {
         /* update view */
         textViewTitle.setText(PostActivity.post.getTitle());
         textViewUser.setText(PostActivity.post.getUser());
-        textViewContent.setText(PostActivity.post.getContent());
-        listView.setAdapter(commentAdapter);
+        listViewImages.setAdapter(imageAdapter);
+        listViewComments.setAdapter(commentAdapter);
 
+    }
+
+    private List<String> extractAllImageLinks(String content, String regex) {
+        List<String> imageList = new ArrayList<>();
+        final Matcher matcher = Pattern.compile(regex).matcher(content);
+        while (matcher.find()) {
+            imageList.add(matcher.group(0));
+        }
+        return imageList;
     }
 
 }
