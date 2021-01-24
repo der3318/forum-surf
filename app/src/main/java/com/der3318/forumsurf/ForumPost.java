@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
@@ -57,7 +58,7 @@ public class ForumPost implements Serializable {
             String url = getItem(position);
 
             ((TextView) listItemView.findViewById(R.id.image_url)).setText(url);
-            Picasso.get().load(url).error(R.drawable.ic_error_256dp).into((ImageView) listItemView.findViewById(R.id.image_preview));
+            Picasso.get().load(url).error(R.drawable.ic_error_256dp).networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE).into((ImageView) listItemView.findViewById(R.id.image_preview));
 
             return listItemView;
         }

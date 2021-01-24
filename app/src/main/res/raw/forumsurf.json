@@ -46,14 +46,9 @@
       "token": "car"
     },
     {
-      "name": "Relationship",
+      "name": "Money",
       "type": "DCARD",
-      "token": "relationship"
-    },
-    {
-      "name": "Mood",
-      "type": "DCARD",
-      "token": "mood"
+      "token": "money"
     }
   ]
 }

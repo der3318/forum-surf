@@ -3,4 +3,5 @@
     <string name="image_links_regex">http(s?)://([\\w-]+\\.)+[\\w-]+(/[\\w- ./]*)+\\.(?:[gG][iI][fF]|[jJ][pP][gG]|[jJ][pP][eE][gG]|[pP][nN][gG]|[bB][mM][pP])</string>
     <string name="comment_index_format">B%d</string>
     <string name="error_connection_failure">Something went wrong…</string>
+    <string name="picasso_cache_bytes">100000000</string>
 </resources>

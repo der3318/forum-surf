@@ -64,6 +64,7 @@ public class PostActivity extends AppCompatActivity {
                             textViewContent.setText(PostActivity.post.getContent());
                             urlList.addAll(PostActivity.this.extractAllImageLinks(PostActivity.post.getContent(), getApplicationContext().getResources().getString(R.string.image_links_regex)));
                             imageAdapter.notifyDataSetChanged();
+                            scrollView.fullScroll(View.FOCUS_UP);
                         }
                     },
                     new Response.ErrorListener() {

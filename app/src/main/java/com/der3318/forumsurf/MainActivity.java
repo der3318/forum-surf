@@ -9,6 +9,9 @@ import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.squareup.picasso.LruCache;
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +49,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        /* set picasso cache configuration */
+        try {
+            int bytes = Integer.parseInt(getApplicationContext().getResources().getString(R.string.picasso_cache_bytes));
+            Picasso picasso = new Picasso.Builder(getApplicationContext()).memoryCache(new LruCache(bytes)).build();
+            Picasso.setSingletonInstance(picasso);
+        } catch (Exception ignored) {
+        }
 
     }
 
