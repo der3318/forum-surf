@@ -1,0 +1,56 @@
+{
+  "id": 235227512,
+  "title": "Title",
+  "content": "Content",
+  "excerpt": "Excerpt",
+  "anonymousSchool": false,
+  "anonymousDepartment": true,
+  "pinned": false,
+  "forumId": "3c91f2b0-6374-4467-b557-2e5383680afb",
+  "replyId": null,
+  "createdAt": "2021-01-24T11:11:42.542Z",
+  "updatedAt": "2021-01-24T11:12:30.669Z",
+  "commentCount": 3,
+  "likeCount": 1,
+  "tags": [],
+  "topics": [
+    "台大",
+    "大學",
+    "司法",
+    "社會議題"
+  ],
+  "supportedReactions": null,
+  "withNickname": false,
+  "reportReason": "",
+  "hiddenByAuthor": false,
+  "meta": {
+    "layout": "classic"
+  },
+  "forumName": "臺灣大學",
+  "forumAlias": "ntu",
+  "nsfw": false,
+  "school": "User",
+  "replyTitle": null,
+  "gender": "F",
+  "personaSubscriptable": false,
+  "reactions": [
+    {
+      "id": "286f599c-f86a-4932-82f0-f5a06f1eca03",
+      "count": 1
+    }
+  ],
+  "hidden": false,
+  "customStyle": null,
+  "isSuspiciousAccount": false,
+  "isModerator": false,
+  "layout": "classic",
+  "spoilerAlert": false,
+  "withImages": false,
+  "withVideos": false,
+  "media": [],
+  "reportReasonText": "",
+  "mediaMeta": [],
+  "excerptComments": [],
+  "postAvatar": "",
+  "verifiedBadge": false
+}

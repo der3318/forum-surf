@@ -43,4 +43,7 @@ dependencies {
 
     /* image view */
     implementation 'com.squareup.picasso:picasso:2.71828'
+
+    /* for tests */
+    testImplementation  'org.json:json:20200518'
 }

@@ -47,7 +47,7 @@ public class DCARDProcessor implements ForumProcessor {
                 String user = (jsonObject.isNull("school") ? "匿名" : jsonObject.getString("school")) + " (" + jsonObject.getString("gender") + ")";
                 String time = jsonObject.getString("createdAt").substring(0, 10);
                 String content = jsonObject.getString("excerpt");
-                String token = jsonObject.getString("id");
+                String token = Long.toString(jsonObject.getLong("id"));
                 postList.add(new ForumPost(title, user, time, content, token));
             }
         } catch (JSONException ignored) {
@@ -61,7 +61,7 @@ public class DCARDProcessor implements ForumProcessor {
             JSONArray jsonArray = new JSONArray(response);
             if (jsonArray.length() > 0) {
                 JSONObject jsonObject = jsonArray.getJSONObject(jsonArray.length() - 1);
-                this.loadMoreDataToken = jsonObject.getString("id");
+                this.loadMoreDataToken = Long.toString(jsonObject.getLong("id"));
             }
         } catch (JSONException ignored) {
         }
